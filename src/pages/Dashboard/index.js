@@ -3,7 +3,7 @@ import {View, Text, FlatList} from 'react-native';
 import api from '../../services/api';
 import Card from '../../components/Card';
 
-const Dashboard = () => {
+const Dashboard = ({navigation}) => {
   const [produtos, setProdutos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
@@ -33,7 +33,7 @@ const Dashboard = () => {
       keyExtractor={(item) => String(item.id)}
       onRefresh={refreshList}
       refreshing={refreshing}
-      renderItem={({item}) => <Card item={item} />}
+      renderItem={({item}) => <Card item={item} navigation={navigation} />}
     />
   );
 };
