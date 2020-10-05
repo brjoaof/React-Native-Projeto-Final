@@ -2,8 +2,12 @@ import React from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import EvilIcon from 'react-native-vector-icons/EvilIcons';
+import api from '../../services/api';
 
 const Card = ({item, navigation}) => {
+  function deletar() {
+    api.delete(`/produto/${item.id}`);
+  }
   return (
     <View
       style={{marginTop: 15, marginHorizontal: 15, backgroundColor: 'white'}}>
@@ -35,7 +39,7 @@ const Card = ({item, navigation}) => {
           onPress={() => navigation.navigate('EditProduct', {item: item})}>
           <EvilIcon name="pencil" size={50} color="#696969" />
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={deletar}>
           <AntDesign name="delete" size={35} color="#696969" />
         </TouchableOpacity>
       </View>
