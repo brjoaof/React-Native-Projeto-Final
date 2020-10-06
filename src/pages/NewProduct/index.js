@@ -1,35 +1,79 @@
-import React, {useState} from 'react';
-import {View, Text, Alert, Button} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {View, Text, Button, Alert} from 'react-native';
 import {TextInput} from 'react-native-gesture-handler';
 import api from '../../services/api';
+import {Picker} from '@react-native-community/picker';
 
-const NewProduct = () => {
+const NewProduct = ({navigation}) => {
   const [id, setId] = useState();
   const [nome, setNome] = useState();
   const [descricao, setDescricao] = useState();
   const [qtdEstoque, setQtdEstoque] = useState();
   const [valor, setValor] = useState();
-  const [idCategoria, setIdCategoria] = useState();
-  const [nomeCategoria, setNomeCategori] = useState();
-  const [idFuncionario, setIdFuncionario] = useState();
-  const [nomeFuncionario, setNomeFuncionario] = useState();
+  const [cat, setCat] = useState();
+  const [func, setFunc] = useState();
   const [dataFabricacao, setDataFabricacao] = useState();
   const [fotoLink, setFotoLink] = useState();
+  const [categoria, setCategoria] = useState([]);
+  const [funcionario, setFuncionario] = useState([]);
+
+  useEffect(() => {
+    const cat = async () => {
+      api
+        .get('/categoria')
+        .then((response) => {
+          setCategoria(response.data);
+          console.log(response.data);
+        })
+        .catch((err) => console.log(err));
+    };
+    cat();
+  }, []);
+
+  useEffect(() => {
+    const func = async () => {
+      api
+        .get('/funcionario')
+        .then((response) => {
+          setFuncionario(response.data);
+          console.log(response.data);
+        })
+        .catch((err) => console.log(err));
+    };
+    func();
+  }, []);
 
   function cadastrar() {
-    api.post('/produto', {
-      id: Number(id),
-      nome: nome,
-      descricao: descricao,
-      qtdEstoque: qtdEstoque,
-      valor: Number(valor),
-      idCategoria: Number(idCategoria),
-      nomeCategoria: nomeCategoria,
-      idFuncionario: Number(idFuncionario),
-      nomeFuncionario: nomeFuncionario,
-      dataFabricacao: dataFabricacao,
-      fotoLink: fotoLink,
-    });
+    Alert.alert(
+      'ATENÇÃO!',
+      'Você tem certeza que deseja cadastrar um novo produto?',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancelou'),
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: () => {
+            api.post('/produto', {
+              id: Number(id),
+              nome: nome,
+              descricao: descricao,
+              qtdEstoque: qtdEstoque,
+              valor: Number(valor),
+              idCategoria: Number(cat),
+              idFuncionario: Number(func),
+              dataFabricacao: dataFabricacao,
+              fotoLink: fotoLink,
+            });
+            console.log('Cadastrou');
+            navigation.goBack();
+          },
+        },
+      ],
+      {cancelable: false},
+    );
   }
 
   return (
@@ -85,46 +129,42 @@ const NewProduct = () => {
           onChangeText={(text) => setValor(text)}
         />
       </View>
-      <View style={{flexDirection: 'row', alignItems: 'baseline'}}>
-        <Text style={{fontSize: 18}}>Código da Categoria: </Text>
-        <TextInput
-          style={{
-            borderBottomWidth: 1,
-            paddingBottom: 0,
-          }}
-          onChangeText={(text) => setIdCategoria(text)}
-        />
+
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <Text style={{fontSize: 18}}>Categoria: </Text>
+        <Picker
+          selectedValue={cat}
+          onValueChange={(itemValue) => setCat(itemValue)}
+          style={{height: 50, width: '60%'}}>
+          {categoria.map((cate) => {
+            return (
+              <Picker.Item
+                label={cate.nome.toUpperCase()}
+                value={cate.id}
+                key={cate.id}
+              />
+            );
+          })}
+        </Picker>
       </View>
-      <View style={{flexDirection: 'row', alignItems: 'baseline'}}>
-        <Text style={{fontSize: 18}}>Nome da Categoria: </Text>
-        <TextInput
-          style={{
-            borderBottomWidth: 1,
-            paddingBottom: 0,
-          }}
-          onChangeText={(text) => setNomeCategori(text)}
-        />
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <Text style={{fontSize: 18}}>Funcionário: </Text>
+        <Picker
+          selectedValue={func}
+          onValueChange={(itemValue) => setFunc(itemValue)}
+          style={{height: 50, width: '60%'}}>
+          {funcionario.map((fun) => {
+            return (
+              <Picker.Item
+                label={fun.nome.toUpperCase()}
+                value={fun.id}
+                key={fun.id}
+              />
+            );
+          })}
+        </Picker>
       </View>
-      <View style={{flexDirection: 'row', alignItems: 'baseline'}}>
-        <Text style={{fontSize: 18}}>Código do Funcionário: </Text>
-        <TextInput
-          style={{
-            borderBottomWidth: 1,
-            paddingBottom: 0,
-          }}
-          onChangeText={(text) => setIdFuncionario(text)}
-        />
-      </View>
-      <View style={{flexDirection: 'row', alignItems: 'baseline'}}>
-        <Text style={{fontSize: 18}}>Nome do Funcionário: </Text>
-        <TextInput
-          style={{
-            borderBottomWidth: 1,
-            paddingBottom: 0,
-          }}
-          onChangeText={(text) => setNomeFuncionario(text)}
-        />
-      </View>
+
       <View style={{flexDirection: 'row', alignItems: 'baseline'}}>
         <Text style={{fontSize: 18}}>Data de Fabricação: </Text>
         <TextInput
