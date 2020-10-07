@@ -7,7 +7,7 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import {TextInput} from 'react-native-gesture-handler';
+import {TextInput, TouchableOpacity} from 'react-native-gesture-handler';
 import api from '../../services/api';
 import {Picker} from '@react-native-community/picker';
 
@@ -340,11 +340,28 @@ const EditProduct = ({route, navigation}) => {
             onChangeText={(text) => setFotoLink(text)}
           />
         </View>
-        <Button
-          style={{backgroundColor: '#24e00b'}}
+        <TouchableOpacity
+          style={{
+            height: 50,
+            fontSize: 28,
+            backgroundColor: '#24e00b',
+            fontFamily: 'Alegreya-BlackItalic',
+            color: 'white',
+            textAlign: 'center',
+            justifyContent: 'center',
+          }}
           title="Atualizar"
-          onPress={atualizar}
-        />
+          onPress={atualizar}>
+          <Text
+            style={{
+              textAlign: 'center',
+              color: 'white',
+              fontSize: 24,
+              fontFamily: 'Alegreya-BlackItalic',
+            }}>
+            ATUALIZAR
+          </Text>
+        </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
   );
