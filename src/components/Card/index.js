@@ -40,20 +40,44 @@ const Card = ({item, navigation, p}) => {
         borderRadius: 10,
       }}>
       <View style={{flexDirection: 'row', marginBottom: 0, padding: 5}}>
-        <View>
+        <View style={{justifyContent: 'space-around'}}>
           <Image
             source={{uri: item.fotoLink}}
             style={{width: 150, height: 150}}
             // onError={() => console.log(`Deu erro: ${item.nome}`)}
           />
         </View>
-        <View style={{flex: 1, marginLeft: 5, justifyContent: 'space-evenly'}}>
-          <Text style={{fontSize: 16, textAlign: 'center'}}>{item.id}</Text>
-          <Text style={{fontSize: 24, textAlign: 'center'}}>{item.nome}</Text>
-          <Text style={{fontSize: 16, textAlign: 'center'}}>
+        <View style={{flex: 1, marginLeft: 5, justifyContent: 'space-around'}}>
+          <Text
+            style={{
+              fontSize: 20,
+              textAlign: 'center',
+              fontFamily: 'Alegreya-Regular',
+            }}>
+            {item.id}
+          </Text>
+          <Text
+            style={{
+              fontSize: 28,
+              textAlign: 'center',
+              fontFamily: 'Alegreya-Black',
+            }}>
+            {item.nome}
+          </Text>
+          <Text
+            style={{
+              fontSize: 20,
+              textAlign: 'center',
+              fontFamily: 'Alegreya-Regular',
+            }}>
             Categoria: {item.nomeCategoria}
           </Text>
-          <Text style={{fontSize: 16, textAlign: 'center'}}>
+          <Text
+            style={{
+              fontSize: 20,
+              textAlign: 'center',
+              fontFamily: 'Alegreya-Regular',
+            }}>
             Estoque: {item.qtdEstoque}
           </Text>
           <View
@@ -62,7 +86,13 @@ const Card = ({item, navigation, p}) => {
               marginHorizontal: 35,
               backgroundColor: '#24e00b',
             }}>
-            <Text style={{fontSize: 26, textAlign: 'center', color: 'white'}}>
+            <Text
+              style={{
+                fontSize: 26,
+                textAlign: 'center',
+                color: 'white',
+                fontFamily: 'Alegreya-Bold',
+              }}>
               R$ {item.valor}
             </Text>
           </View>

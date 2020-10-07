@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, TouchableOpacity, Text} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
 const Header = ({navigation}) => {
   return (
     <View
