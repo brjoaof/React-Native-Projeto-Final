@@ -1,15 +1,14 @@
 import React, {useEffect, useState} from 'react';
+import {View, Text, Alert} from 'react-native';
 import {
-  View,
-  Text,
-  Alert,
-  Button,
-  KeyboardAvoidingView,
-  Platform,
-} from 'react-native';
-import {TextInput, TouchableOpacity} from 'react-native-gesture-handler';
+  TextInput,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native-gesture-handler';
 import api from '../../services/api';
 import {Picker} from '@react-native-community/picker';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import LinearGradient from 'react-native-linear-gradient';
 
 const EditProduct = ({route, navigation}) => {
   const {item} = route.params;
@@ -31,7 +30,6 @@ const EditProduct = ({route, navigation}) => {
         .get('/categoria')
         .then((response) => {
           setCategoria(response.data);
-          console.log(response.data);
         })
         .catch((err) => console.log(err));
     };
@@ -44,7 +42,6 @@ const EditProduct = ({route, navigation}) => {
         .get('/funcionario')
         .then((response) => {
           setFuncionario(response.data);
-          console.log(response.data);
         })
         .catch((err) => console.log(err));
     };
@@ -85,266 +82,255 @@ const EditProduct = ({route, navigation}) => {
   }
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
-      style={{flex: 1}}>
-      <View style={{flex: 1}}>
-        <Text
+    <ScrollView style={{flex: 1}}>
+      <LinearGradient
+        colors={['#210934', '#36065b', '#700cbc']}
+        start={{x: 0, y: 0}}
+        end={{x: 1, y: 1}}>
+        <View
           style={{
-            marginBottom: 15,
-            fontSize: 28,
-            backgroundColor: '#8A05BE',
-            fontFamily: 'Alegreya-BlackItalic',
-            color: 'white',
-            textAlign: 'center',
-            justifyContent: 'center',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            paddingHorizontal: 20,
             paddingVertical: 15,
           }}>
-          DADOS DO PRODUTO
-        </Text>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'baseline',
-            marginHorizontal: 10,
-          }}>
-          <Text style={{fontSize: 24, fontFamily: 'Alegreya-Bold'}}>
-            Código do Produto:{' '}
-          </Text>
-          <TextInput
-            defaultValue={String(item.id)}
+          <Text
             style={{
-              borderWidth: 1,
-              borderRadius: 5,
-              paddingBottom: 0,
-              backgroundColor: 'white',
-              width: '45%',
-              marginHorizontal: 5,
-              marginVertical: 10,
-              fontSize: 17,
-              fontFamily: 'Alegreya-Regular',
-              textAlign: 'center',
-            }}
-            onChangeText={(text) => setId(text)}
-          />
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'baseline',
-            marginHorizontal: 10,
-          }}>
-          <Text style={{fontSize: 24, fontFamily: 'Alegreya-Bold'}}>
-            Produto:{' '}
-          </Text>
-          <TextInput
-            defaultValue={item.nome}
-            style={{
-              borderWidth: 1,
-              borderRadius: 5,
-              paddingBottom: 0,
-              backgroundColor: 'white',
-              width: '72%',
-              marginHorizontal: 5,
-              marginVertical: 10,
-              fontSize: 17,
-              fontFamily: 'Alegreya-Regular',
-              textAlign: 'center',
-            }}
-            onChangeText={(text) => setNome(text)}
-          />
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'baseline',
-            marginHorizontal: 10,
-          }}>
-          <Text style={{fontSize: 24, fontFamily: 'Alegreya-Bold'}}>
-            Descrição:{' '}
-          </Text>
-          <TextInput
-            defaultValue={item.descricao}
-            style={{
-              borderWidth: 1,
-              borderRadius: 5,
-              paddingBottom: 0,
-              backgroundColor: 'white',
-              width: '68%',
-              marginHorizontal: 5,
-              marginVertical: 10,
-              fontSize: 17,
-              fontFamily: 'Alegreya-Regular',
-              textAlign: 'center',
-            }}
-            onChangeText={(text) => setDescricao(text)}
-          />
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'baseline',
-            marginHorizontal: 10,
-          }}>
-          <Text style={{fontSize: 24, fontFamily: 'Alegreya-Bold'}}>
-            Quantidade em Estoque:{' '}
-          </Text>
-          <TextInput
-            defaultValue={String(item.qtdEstoque)}
-            style={{
-              borderWidth: 1,
-              borderRadius: 5,
-              paddingBottom: 0,
-              backgroundColor: 'white',
-              width: '32%',
-              marginHorizontal: 5,
-              marginVertical: 10,
-              fontSize: 17,
-              fontFamily: 'Alegreya-Regular',
-              textAlign: 'center',
-            }}
-            onChangeText={(text) => setQtdEstoque(text)}
-          />
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'baseline',
-            marginHorizontal: 10,
-          }}>
-          <Text style={{fontSize: 24, fontFamily: 'Alegreya-Bold'}}>
-            Valor: R${' '}
-          </Text>
-          <TextInput
-            defaultValue={String(item.valor)}
-            style={{
-              borderWidth: 1,
-              borderRadius: 5,
-              paddingBottom: 0,
-              backgroundColor: 'white',
-              width: '71%',
-              marginHorizontal: 5,
-              marginVertical: 10,
-              fontSize: 17,
-              fontFamily: 'Alegreya-Regular',
-              textAlign: 'center',
-            }}
-            onChangeText={(text) => setValor(text)}
-          />
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginHorizontal: 10,
-          }}>
-          <Text style={{fontSize: 24, fontFamily: 'Alegreya-Bold'}}>
-            Categoria:{' '}
-          </Text>
-          <Picker
-            selectedValue={cat}
-            onValueChange={(itemValue) => setCat(itemValue)}
-            style={{
-              // height: 50,
-              width: '68%',
-              backgroundColor: 'white',
-              borderWidth: 2,
-              marginHorizontal: 5,
+              color: 'white',
+              fontSize: 36,
+              fontFamily: 'Alegreya-BlackItalic',
             }}>
-            {categoria.map((cate) => {
-              return (
-                <Picker.Item
-                  label={cate.nome.toUpperCase()}
-                  value={cate.id}
-                  key={cate.id}
-                />
-              );
-            })}
-          </Picker>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginHorizontal: 10,
-          }}>
-          <Text style={{fontSize: 24, fontFamily: 'Alegreya-Bold'}}>
-            Funcionário:{' '}
+            Dados do Produto
           </Text>
-          <Picker
-            selectedValue={func}
-            onValueChange={(itemValue) => setFunc(itemValue)}
-            style={{height: 50, width: '60%'}}>
-            {funcionario.map((fun) => {
-              return (
-                <Picker.Item
-                  label={fun.nome.toUpperCase()}
-                  value={fun.id}
-                  key={fun.id}
-                />
-              );
-            })}
-          </Picker>
+          <TouchableOpacity onPress={() => navigation.goBack('Product')}>
+            <MaterialIcons name="keyboard-return" size={40} color="white" />
+          </TouchableOpacity>
         </View>
+      </LinearGradient>
+      <View
+        style={{
+          alignItems: 'baseline',
+          paddingHorizontal: 10,
+          paddingTop: 10,
+        }}>
+        <Text style={{fontSize: 21, fontFamily: 'Alegreya-Bold'}}>
+          Código do Produto:{' '}
+        </Text>
+        <TextInput
+          defaultValue={String(item.id)}
+          style={{
+            borderRadius: 10,
+            paddingBottom: 0,
+            backgroundColor: 'white',
+            width: '100%',
+            fontSize: 21,
+            fontFamily: 'Alegreya-Regular',
+          }}
+          onChangeText={(text) => setId(text)}
+        />
+      </View>
+      <View
+        style={{
+          alignItems: 'baseline',
+          paddingHorizontal: 10,
+          paddingTop: 10,
+        }}>
+        <Text
+          style={{fontSize: 21, fontFamily: 'Alegreya-Bold', paddingTop: 5}}>
+          Produto:{' '}
+        </Text>
+        <TextInput
+          defaultValue={item.nome}
+          style={{
+            borderRadius: 10,
+            paddingBottom: 0,
+            backgroundColor: 'white',
+            width: '100%',
+            fontSize: 21,
+            fontFamily: 'Alegreya-Regular',
+          }}
+          onChangeText={(text) => setNome(text)}
+        />
+      </View>
+      <View
+        style={{
+          alignItems: 'baseline',
+          paddingHorizontal: 10,
+          paddingTop: 10,
+        }}>
+        <Text
+          style={{fontSize: 21, fontFamily: 'Alegreya-Bold', paddingTop: 5}}>
+          Descrição:{' '}
+        </Text>
+        <TextInput
+          defaultValue={item.descricao}
+          style={{
+            borderRadius: 10,
+            paddingBottom: 0,
+            backgroundColor: 'white',
+            width: '100%',
+            fontSize: 21,
+            fontFamily: 'Alegreya-Regular',
+          }}
+          onChangeText={(text) => setDescricao(text)}
+        />
+      </View>
+      <View
+        style={{
+          alignItems: 'baseline',
+          paddingHorizontal: 10,
+          paddingTop: 10,
+        }}>
+        <Text
+          style={{fontSize: 21, fontFamily: 'Alegreya-Bold', paddingTop: 5}}>
+          Quantidade em Estoque:{' '}
+        </Text>
+        <TextInput
+          defaultValue={String(item.qtdEstoque)}
+          style={{
+            borderRadius: 10,
+            paddingBottom: 0,
+            backgroundColor: 'white',
+            width: '100%',
+            fontSize: 21,
+            fontFamily: 'Alegreya-Regular',
+          }}
+          onChangeText={(text) => setQtdEstoque(text)}
+        />
+      </View>
+      <View
+        style={{
+          alignItems: 'baseline',
+          paddingHorizontal: 10,
+          paddingTop: 10,
+        }}>
+        <Text
+          style={{fontSize: 21, fontFamily: 'Alegreya-Bold', paddingTop: 5}}>
+          Valor: R${' '}
+        </Text>
+        <TextInput
+          defaultValue={String(item.valor)}
+          style={{
+            borderRadius: 10,
+            paddingBottom: 0,
+            backgroundColor: 'white',
+            width: '100%',
+            fontSize: 21,
+            fontFamily: 'Alegreya-Regular',
+          }}
+          onChangeText={(text) => setValor(text)}
+        />
+      </View>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          paddingHorizontal: 10,
+          paddingTop: 10,
+        }}>
+        <Text style={{fontSize: 21, fontFamily: 'Alegreya-Bold'}}>
+          Categoria:{' '}
+        </Text>
+        <Picker
+          selectedValue={cat}
+          onValueChange={(itemValue) => setCat(itemValue)}
+          style={{
+            height: 50,
+            width: '60%',
+          }}>
+          {categoria.map((cate) => {
+            return (
+              <Picker.Item
+                label={cate.nome.toUpperCase()}
+                value={cate.id}
+                key={cate.id}
+              />
+            );
+          })}
+        </Picker>
+      </View>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          paddingHorizontal: 10,
+          paddingTop: 10,
+        }}>
+        <Text style={{fontSize: 21, fontFamily: 'Alegreya-Bold'}}>
+          Funcionário:{' '}
+        </Text>
+        <Picker
+          selectedValue={func}
+          onValueChange={(itemValue) => setFunc(itemValue)}
+          style={{height: 50, width: '60%'}}>
+          {funcionario.map((fun) => {
+            return (
+              <Picker.Item
+                label={fun.nome.toUpperCase()}
+                value={fun.id}
+                key={fun.id}
+              />
+            );
+          })}
+        </Picker>
+      </View>
 
-        <View
+      <View
+        style={{
+          alignItems: 'baseline',
+          paddingHorizontal: 10,
+          paddingTop: 10,
+        }}>
+        <Text
+          style={{fontSize: 21, fontFamily: 'Alegreya-Bold', paddingTop: 5}}>
+          Data de Fabricação:{' '}
+        </Text>
+        <TextInput
+          defaultValue={item.dataFabricacao}
           style={{
-            flexDirection: 'row',
-            alignItems: 'baseline',
-            marginHorizontal: 10,
-          }}>
-          <Text style={{fontSize: 24, fontFamily: 'Alegreya-Bold'}}>
-            Data de Fabricação:{' '}
-          </Text>
-          <TextInput
-            defaultValue={item.dataFabricacao}
-            style={{
-              borderWidth: 1,
-              borderRadius: 5,
-              paddingBottom: 0,
-              backgroundColor: 'white',
-              width: '45%',
-              marginHorizontal: 5,
-              marginVertical: 10,
-              fontSize: 17,
-              fontFamily: 'Alegreya-Regular',
-              textAlign: 'center',
-            }}
-            onChangeText={(text) => setDataFabricacao(text)}
-          />
-        </View>
-        <View
+            borderRadius: 10,
+            paddingBottom: 0,
+            backgroundColor: 'white',
+            width: '100%',
+            fontSize: 21,
+            fontFamily: 'Alegreya-Regular',
+          }}
+          onChangeText={(text) => setDataFabricacao(text)}
+        />
+      </View>
+      <View
+        style={{
+          flex: 1,
+          alignItems: 'baseline',
+          paddingHorizontal: 10,
+          paddingTop: 10,
+        }}>
+        <Text
+          style={{fontSize: 21, fontFamily: 'Alegreya-Bold', paddingTop: 5}}>
+          Link da Imagem:{' '}
+        </Text>
+        <TextInput
+          defaultValue={item.fotoLink}
           style={{
-            flex: 1,
-            flexDirection: 'row',
-            alignItems: 'baseline',
-            marginHorizontal: 10,
-          }}>
-          <Text style={{fontSize: 24, fontFamily: 'Alegreya-Bold'}}>
-            Link da Imagem:{' '}
-          </Text>
-          <TextInput
-            defaultValue={item.fotoLink}
-            style={{
-              borderWidth: 1,
-              borderRadius: 5,
-              paddingBottom: 0,
-              backgroundColor: 'white',
-              marginHorizontal: 5,
-              marginVertical: 10,
-              fontSize: 17,
-              fontFamily: 'Alegreya-Regular',
-              textAlign: 'center',
-              width: '52%',
-            }}
-            onChangeText={(text) => setFotoLink(text)}
-          />
-        </View>
+            borderRadius: 10,
+            paddingBottom: 10,
+            backgroundColor: 'white',
+            width: '100%',
+            fontSize: 21,
+            fontFamily: 'Alegreya-Regular',
+          }}
+          onChangeText={(text) => setFotoLink(text)}
+        />
+      </View>
+      <LinearGradient
+        colors={['#210934', '#36065b', '#700cbc']}
+        start={{x: 0, y: 0}}
+        end={{x: 1, y: 1}}>
         <TouchableOpacity
           style={{
             height: 50,
             fontSize: 28,
-            backgroundColor: '#24e00b',
             fontFamily: 'Alegreya-BlackItalic',
             color: 'white',
             textAlign: 'center',
@@ -362,8 +348,8 @@ const EditProduct = ({route, navigation}) => {
             ATUALIZAR
           </Text>
         </TouchableOpacity>
-      </View>
-    </KeyboardAvoidingView>
+      </LinearGradient>
+    </ScrollView>
   );
 };
 

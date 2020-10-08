@@ -3,27 +3,43 @@ import {FlatList} from 'react-native';
 import api from '../../services/api';
 import Card from '../../components/Card';
 import Header from '../../components/Header';
+import getRealm from '../../services/realm';
+import {useNetInfo} from '@react-native-community/netinfo';
 
 const Dashboard = ({navigation}) => {
   const [produtos, setProdutos] = useState([]);
+  const [rProdutos, setRProdutos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
+  const netInfo = useNetInfo();
 
   React.useEffect(() => {
     navigation.addListener('focus', () => {
       refreshList();
-      console.log('EU AQUII');
     });
   });
+
+  async function save(listaProdutos) {
+    const realm = await getRealm();
+    produtos.map((produto) => {
+      realm.write(() => {
+        realm.create('Produto', produto);
+      });
+    });
+  }
 
   async function loadPage() {
     if (loading) return;
 
-    setLoading(true);
-    console.log('FIZ UM GET');
-    const {data} = await api.get('/produto');
-    setLoading(false);
-    setProdutos(data);
+    try {
+      setLoading(true);
+      const {data} = await api.get('/produto');
+      setLoading(false);
+      setProdutos(data);
+      await save(data);
+    } catch (err) {
+      console.log('Error: GET OU SAVE');
+    }
   }
 
   async function refreshList() {
@@ -34,7 +50,12 @@ const Dashboard = ({navigation}) => {
 
   useEffect(() => {
     loadPage();
-    console.log('Use Effect');
+    async function loadRealmItems() {
+      const realm = await getRealm();
+      const rdata = realm.objects('Produto');
+      setRProdutos(rdata);
+    }
+    loadRealmItems();
   }, []);
 
   return (

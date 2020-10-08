@@ -102,7 +102,7 @@ const Card = ({item, navigation, p}) => {
         style={{
           flexDirection: 'row',
           alignItems: 'center',
-          borderColor: '#8A05BE',
+          borderColor: '##36065b',
           borderTopWidth: 2,
           justifyContent: 'space-around',
           paddingVertical: 5,

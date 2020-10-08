@@ -12,6 +12,12 @@ target 'trabalho' do
 
   pod 'RNCPicker', :path => '../node_modules/@react-native-community/picker'
 
+  pod 'react-native-netinfo', :path => '../node_modules/@react-native-community/netinfo'
+
+  pod 'RealmJS', :path => '../node_modules/realm'
+
+  pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
+
   target 'trabalhoTests' do
     inherit! :complete
     # Pods for testing

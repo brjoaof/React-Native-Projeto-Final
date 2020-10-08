@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Button, Alert} from 'react-native';
+import {View, Text, ScrollView, Alert, TouchableOpacity} from 'react-native';
 import {TextInput} from 'react-native-gesture-handler';
 import api from '../../services/api';
 import {Picker} from '@react-native-community/picker';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import LinearGradient from 'react-native-linear-gradient';
 
 const NewProduct = ({navigation}) => {
   const [id, setId] = useState();
@@ -23,7 +25,6 @@ const NewProduct = ({navigation}) => {
         .get('/categoria')
         .then((response) => {
           setCategoria(response.data);
-          console.log(response.data);
         })
         .catch((err) => console.log(err));
     };
@@ -36,7 +37,6 @@ const NewProduct = ({navigation}) => {
         .get('/funcionario')
         .then((response) => {
           setFuncionario(response.data);
-          console.log(response.data);
         })
         .catch((err) => console.log(err));
     };
@@ -77,61 +77,149 @@ const NewProduct = ({navigation}) => {
   }
 
   return (
-    <View style={{flex: 1}}>
-      <Text style={{marginBottom: 15}}>DADOS DO PRODUTO</Text>
-      <View style={{flexDirection: 'row', alignItems: 'baseline'}}>
-        <Text style={{fontSize: 18}}>Código do Produto: </Text>
+    <ScrollView style={{flex: 1}}>
+      <LinearGradient
+        colors={['#210934', '#36065b', '#700cbc']}
+        start={{x: 0, y: 0}}
+        end={{x: 1, y: 1}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            paddingHorizontal: 20,
+            paddingVertical: 15,
+          }}>
+          <Text
+            style={{
+              color: 'white',
+              fontSize: 36,
+              fontFamily: 'Alegreya-BlackItalic',
+            }}>
+            Dados do Produto
+          </Text>
+          <TouchableOpacity onPress={() => navigation.goBack('Product')}>
+            <MaterialIcons name="keyboard-return" size={40} color="white" />
+          </TouchableOpacity>
+        </View>
+      </LinearGradient>
+
+      <View
+        style={{
+          alignItems: 'baseline',
+          marginHorizontal: 10,
+          paddingTop: 10,
+        }}>
+        <Text style={{fontSize: 21, fontFamily: 'Alegreya-Bold'}}>
+          Código do Produto:{' '}
+        </Text>
         <TextInput
           style={{
-            borderBottomWidth: 1,
+            borderRadius: 10,
             paddingBottom: 0,
+            backgroundColor: 'white',
+            width: '100%',
+            fontSize: 21,
+            fontFamily: 'Alegreya-Regular',
           }}
           onChangeText={(text) => setId(text)}
         />
       </View>
-      <View style={{flexDirection: 'row', alignItems: 'baseline'}}>
-        <Text style={{fontSize: 18}}>Produto: </Text>
+      <View
+        style={{
+          alignItems: 'baseline',
+          marginHorizontal: 10,
+          paddingTop: 10,
+        }}>
+        <Text style={{fontSize: 21, fontFamily: 'Alegreya-Bold'}}>
+          Produto:{' '}
+        </Text>
         <TextInput
           style={{
-            borderBottomWidth: 1,
+            borderRadius: 10,
             paddingBottom: 0,
+            backgroundColor: 'white',
+            width: '100%',
+            fontSize: 21,
+            fontFamily: 'Alegreya-Regular',
           }}
           onChangeText={(text) => setNome(text)}
         />
       </View>
-      <View style={{flexDirection: 'row', alignItems: 'baseline'}}>
-        <Text style={{fontSize: 18}}>Descrição: </Text>
+      <View
+        style={{
+          alignItems: 'baseline',
+          marginHorizontal: 10,
+          paddingTop: 10,
+        }}>
+        <Text style={{fontSize: 24, fontFamily: 'Alegreya-Bold'}}>
+          Descrição:{' '}
+        </Text>
         <TextInput
           style={{
-            borderBottomWidth: 1,
+            borderRadius: 10,
             paddingBottom: 0,
+            backgroundColor: 'white',
+            width: '100%',
+            fontSize: 21,
+            fontFamily: 'Alegreya-Regular',
           }}
           onChangeText={(text) => setDescricao(text)}
         />
       </View>
-      <View style={{flexDirection: 'row', alignItems: 'baseline'}}>
-        <Text style={{fontSize: 18}}>Quantidade em Estoque: </Text>
+      <View
+        style={{
+          alignItems: 'baseline',
+          marginHorizontal: 10,
+          paddingTop: 10,
+        }}>
+        <Text style={{fontSize: 21, fontFamily: 'Alegreya-Bold'}}>
+          Quantidade em Estoque:{' '}
+        </Text>
         <TextInput
           style={{
-            borderBottomWidth: 1,
+            borderRadius: 10,
             paddingBottom: 0,
+            backgroundColor: 'white',
+            width: '100%',
+            fontSize: 21,
+            fontFamily: 'Alegreya-Regular',
           }}
           onChangeText={(text) => setQtdEstoque(text)}
         />
       </View>
-      <View style={{flexDirection: 'row', alignItems: 'baseline'}}>
-        <Text style={{fontSize: 18}}>Valor: R$ </Text>
+      <View
+        style={{
+          alignItems: 'baseline',
+          marginHorizontal: 10,
+          paddingTop: 10,
+        }}>
+        <Text style={{fontSize: 21, fontFamily: 'Alegreya-Bold'}}>
+          Valor: R${' '}
+        </Text>
         <TextInput
           style={{
-            borderBottomWidth: 1,
+            borderRadius: 10,
             paddingBottom: 0,
+            backgroundColor: 'white',
+            width: '100%',
+            fontSize: 21,
+            fontFamily: 'Alegreya-Regular',
           }}
           onChangeText={(text) => setValor(text)}
         />
       </View>
 
-      <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        <Text style={{fontSize: 18}}>Categoria: </Text>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          marginHorizontal: 10,
+          paddingTop: 10,
+        }}>
+        <Text style={{fontSize: 21, fontFamily: 'Alegreya-Bold'}}>
+          Categoria:{' '}
+        </Text>
         <Picker
           selectedValue={cat}
           onValueChange={(itemValue) => setCat(itemValue)}
@@ -147,8 +235,16 @@ const NewProduct = ({navigation}) => {
           })}
         </Picker>
       </View>
-      <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        <Text style={{fontSize: 18}}>Funcionário: </Text>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          marginHorizontal: 10,
+          paddingTop: 10,
+        }}>
+        <Text style={{fontSize: 21, fontFamily: 'Alegreya-Bold'}}>
+          Funcionário:{' '}
+        </Text>
         <Picker
           selectedValue={func}
           onValueChange={(itemValue) => setFunc(itemValue)}
@@ -165,13 +261,24 @@ const NewProduct = ({navigation}) => {
         </Picker>
       </View>
 
-      <View style={{flexDirection: 'row', alignItems: 'baseline'}}>
-        <Text style={{fontSize: 18}}>Data de Fabricação: </Text>
+      <View
+        style={{
+          alignItems: 'baseline',
+          marginHorizontal: 10,
+          paddingTop: 10,
+        }}>
+        <Text style={{fontSize: 24, fontFamily: 'Alegreya-Bold'}}>
+          Data de Fabricação:{' '}
+        </Text>
         <TextInput
           defaultValue={'2019-10-01T00:00:00Z'}
           style={{
-            borderBottomWidth: 1,
+            borderRadius: 10,
             paddingBottom: 0,
+            backgroundColor: 'white',
+            width: '100%',
+            fontSize: 21,
+            fontFamily: 'Alegreya-Regular',
           }}
           onChangeText={(text) => setDataFabricacao(text)}
         />
@@ -179,21 +286,52 @@ const NewProduct = ({navigation}) => {
       <View
         style={{
           flex: 1,
-          flexDirection: 'row',
           alignItems: 'baseline',
+          marginHorizontal: 10,
+          paddingTop: 10,
         }}>
-        <Text style={{fontSize: 18}}>Link da Imagem: </Text>
+        <Text style={{fontSize: 24, fontFamily: 'Alegreya-Bold'}}>
+          Link da Imagem:{' '}
+        </Text>
         <TextInput
           style={{
-            borderBottomWidth: 1,
-            paddingBottom: 0,
-            width: '60%',
+            borderRadius: 10,
+            paddingBottom: 10,
+            backgroundColor: 'white',
+            width: '100%',
+            fontSize: 21,
+            fontFamily: 'Alegreya-Regular',
           }}
           onChangeText={(text) => setFotoLink(text)}
         />
       </View>
-      <Button title="Cadastrar" onPress={cadastrar} />
-    </View>
+      <LinearGradient
+        colors={['#210934', '#36065b', '#700cbc']}
+        start={{x: 0, y: 0}}
+        end={{x: 1, y: 1}}>
+        <TouchableOpacity
+          style={{
+            height: 50,
+            fontSize: 28,
+            fontFamily: 'Alegreya-BlackItalic',
+            color: 'white',
+            textAlign: 'center',
+            justifyContent: 'center',
+          }}
+          title="Cadastrar"
+          onPress={cadastrar}>
+          <Text
+            style={{
+              textAlign: 'center',
+              color: 'white',
+              fontSize: 24,
+              fontFamily: 'Alegreya-BlackItalic',
+            }}>
+            CADASTRAR
+          </Text>
+        </TouchableOpacity>
+      </LinearGradient>
+    </ScrollView>
   );
 };
 
