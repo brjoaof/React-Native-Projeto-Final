@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, Image, TouchableOpacity, Alert} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import EvilIcon from 'react-native-vector-icons/EvilIcons';
@@ -31,6 +31,10 @@ const Card = ({item, navigation, p}) => {
     );
   }
 
+  let link = {uri: item.fotoLink};
+
+  const [valid, setValid] = useState(true);
+
   return (
     <View
       style={{
@@ -42,9 +46,13 @@ const Card = ({item, navigation, p}) => {
       <View style={{flexDirection: 'row', marginBottom: 0, padding: 5}}>
         <View style={{justifyContent: 'space-around'}}>
           <Image
-            source={{uri: item.fotoLink}}
-            style={{width: 150, height: 150}}
-            // onError={() => console.log(`Deu erro: ${item.nome}`)}
+            onError={() => setValid(false)}
+            source={
+              valid
+                ? {uri: item.fotoLink}
+                : require('../../assets/img/indisponivel.jpg')
+            }
+            style={{height: 150, width: 150}}
           />
         </View>
         <View style={{flex: 1, marginLeft: 5, justifyContent: 'space-around'}}>
