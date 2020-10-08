@@ -1,9 +1,9 @@
 import React from 'react';
-import {View, TouchableOpacity, Text} from 'react-native';
+import {View, TouchableOpacity, Text, Alert} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import LinearGradient from 'react-native-linear-gradient';
 
-const Header = ({navigation}) => {
+const Header = ({navigation, netInfo}) => {
   return (
     <LinearGradient
       colors={['#210934', '#36065b', '#700cbc']}
@@ -25,7 +25,15 @@ const Header = ({navigation}) => {
           }}>
           Produtos
         </Text>
-        <TouchableOpacity onPress={() => navigation.navigate('NewProduct')}>
+        <TouchableOpacity
+          onPress={() =>
+            netInfo
+              ? navigation.navigate('NewProduct')
+              : Alert.alert(
+                  'SEM CONEXÃO',
+                  'Desculpe, você está sem internet =(',
+                )
+          }>
           <MaterialIcons name="add" size={40} color="white" />
         </TouchableOpacity>
       </View>

@@ -4,31 +4,35 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import EvilIcon from 'react-native-vector-icons/EvilIcons';
 import api from '../../services/api';
 
-const Card = ({item, navigation, p}) => {
+const Card = ({item, navigation, p, netInfo}) => {
   function deletar() {
-    Alert.alert(
-      'ATENÇÃO!',
-      'Você tem certeza que deseja DELETAR este produto?',
-      [
-        {
-          text: 'Cancel',
-          onPress: () => console.log('Cancelou'),
-          style: 'cancel',
-        },
-        {
-          text: 'OK',
-          onPress: () => {
-            api
-              .delete(`/produto/${item.id}`)
-              .then(() => {
-                p();
-              })
-              .catch((e) => console.log(e));
+    if (netInfo) {
+      Alert.alert(
+        'ATENÇÃO!',
+        'Você tem certeza que deseja DELETAR este produto?',
+        [
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancelou'),
+            style: 'cancel',
           },
-        },
-      ],
-      {cancelable: false},
-    );
+          {
+            text: 'OK',
+            onPress: () => {
+              api
+                .delete(`/produto/${item.id}`)
+                .then(() => {
+                  p();
+                })
+                .catch((e) => console.log(e));
+            },
+          },
+        ],
+        {cancelable: false},
+      );
+    } else {
+      Alert.alert('SEM CONEXÃO', 'Desculpe, você está sem internet =(');
+    }
   }
 
   let link = {uri: item.fotoLink};
@@ -117,9 +121,14 @@ const Card = ({item, navigation, p}) => {
         }}>
         <TouchableOpacity
           onPress={() =>
-            navigation.navigate('EditProduct', {
-              item: item,
-            })
+            netInfo
+              ? navigation.navigate('EditProduct', {
+                  item: item,
+                })
+              : Alert.alert(
+                  'SEM CONEXÃO',
+                  'Desculpe, você está sem internet =(',
+                )
           }>
           <EvilIcon name="pencil" size={50} color="#696969" />
         </TouchableOpacity>
