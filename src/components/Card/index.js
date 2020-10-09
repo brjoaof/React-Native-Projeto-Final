@@ -3,6 +3,7 @@ import {View, Text, Image, TouchableOpacity, Alert} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import EvilIcon from 'react-native-vector-icons/EvilIcons';
 import api from '../../services/api';
+import styles from './style';
 
 const Card = ({item, navigation, p, netInfo}) => {
   function deletar() {
@@ -40,15 +41,9 @@ const Card = ({item, navigation, p, netInfo}) => {
   const [valid, setValid] = useState(true);
 
   return (
-    <View
-      style={{
-        marginTop: 15,
-        marginHorizontal: 15,
-        backgroundColor: 'white',
-        borderRadius: 10,
-      }}>
-      <View style={{flexDirection: 'row', marginBottom: 0, padding: 5}}>
-        <View style={{justifyContent: 'space-around'}}>
+    <View style={styles.container}>
+      <View style={styles.container1}>
+        <View style={styles.container3}>
           <Image
             onError={() => setValid(false)}
             source={
@@ -56,69 +51,20 @@ const Card = ({item, navigation, p, netInfo}) => {
                 ? {uri: item.fotoLink}
                 : require('../../assets/img/indisponivel.jpg')
             }
-            style={{height: 150, width: 150}}
+            style={styles.image}
           />
         </View>
-        <View style={{flex: 1, marginLeft: 5, justifyContent: 'space-around'}}>
-          <Text
-            style={{
-              fontSize: 20,
-              textAlign: 'center',
-              fontFamily: 'Alegreya-Regular',
-            }}>
-            {item.id}
-          </Text>
-          <Text
-            style={{
-              fontSize: 28,
-              textAlign: 'center',
-              fontFamily: 'Alegreya-Black',
-            }}>
-            {item.nome}
-          </Text>
-          <Text
-            style={{
-              fontSize: 20,
-              textAlign: 'center',
-              fontFamily: 'Alegreya-Regular',
-            }}>
-            Categoria: {item.nomeCategoria}
-          </Text>
-          <Text
-            style={{
-              fontSize: 20,
-              textAlign: 'center',
-              fontFamily: 'Alegreya-Regular',
-            }}>
-            Estoque: {item.qtdEstoque}
-          </Text>
-          <View
-            style={{
-              borderRadius: 10,
-              marginHorizontal: 35,
-              backgroundColor: '#24e00b',
-            }}>
-            <Text
-              style={{
-                fontSize: 26,
-                textAlign: 'center',
-                color: 'white',
-                fontFamily: 'Alegreya-Bold',
-              }}>
-              R$ {item.valor}
-            </Text>
+        <View style={styles.container3}>
+          <Text style={styles.texto}>{item.id}</Text>
+          <Text style={styles.texto1}>{item.nome}</Text>
+          <Text style={styles.texto2}>Categoria: {item.nomeCategoria}</Text>
+          <Text style={styles.texto2}>Estoque: {item.qtdEstoque}</Text>
+          <View style={styles.container4}>
+            <Text style={styles.texto3}>R$ {item.valor}</Text>
           </View>
         </View>
       </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          borderColor: '##36065b',
-          borderTopWidth: 2,
-          justifyContent: 'space-around',
-          paddingVertical: 5,
-        }}>
+      <View style={styles.container5}>
         <TouchableOpacity
           onPress={() =>
             netInfo

@@ -2,6 +2,7 @@ import React from 'react';
 import {View, TouchableOpacity, Text, Alert} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import LinearGradient from 'react-native-linear-gradient';
+import styles from './style';
 
 const Header = ({navigation, netInfo}) => {
   return (
@@ -9,22 +10,8 @@ const Header = ({navigation, netInfo}) => {
       colors={['#210934', '#36065b', '#700cbc']}
       start={{x: 0, y: 0}}
       end={{x: 1, y: 1}}>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          paddingHorizontal: 20,
-          paddingVertical: 15,
-        }}>
-        <Text
-          style={{
-            color: 'white',
-            fontSize: 36,
-            fontFamily: 'Alegreya-BlackItalic',
-          }}>
-          Produtos
-        </Text>
+      <View style={styles.container}>
+        <Text style={styles.texto}>Produtos</Text>
         <TouchableOpacity
           onPress={() =>
             netInfo
